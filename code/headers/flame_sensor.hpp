@@ -10,7 +10,6 @@ namespace r2d2::flame_sensor {
         hwlib::pin_oc &ir_led_3;
         hwlib::pin_oc &ir_led_4;
         hwlib::pin_oc &ir_led_5;
-       
     public:
         flame_sensor_c(hwlib::pin_oc &ir_led_1, hwlib::pin_oc &ir_led_2,
                        hwlib::pin_oc &ir_led_3, hwlib::pin_oc &ir_led_4,
