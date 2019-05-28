@@ -2,10 +2,10 @@
 
 namespace r2d2::flame_sensor {
     flame_sensor_c::flame_sensor_c(hwlib::pin_oc &ir_led_1,
-                                   hwlib::pin_oc &ir_led_2,
-                                   hwlib::pin_oc &ir_led_3,
-                                   hwlib::pin_oc &ir_led_4,
-                                   hwlib::pin_oc &ir_led_5)
+                                   hwlib::pin_oc &ir_led_2 = hwlib::pin_oc_dummy ,
+                                   hwlib::pin_oc &ir_led_3 = hwlib::pin_oc_dummy,
+                                   hwlib::pin_oc &ir_led_4 = hwlib::pin_oc_dummy,
+                                   hwlib::pin_oc &ir_led_5 = hwlib::pin_oc_dummy)
         : ir_led_1(ir_led_1),
           ir_led_2(ir_led_2),
           ir_led_3(ir_led_3),
@@ -13,31 +13,17 @@ namespace r2d2::flame_sensor {
           ir_led_5(ir_led_5) {
     }
 
-    flame_sensor_c::flame_sensor_c(hwlib::pin_oc &ir_led_test)
-        : ir_led_1(ir_led_test),
-          ir_led_2(hwlib::pin_oc_dummy),
-          ir_led_3(hwlib::pin_oc_dummy),
-          ir_led_4(hwlib::pin_oc_dummy),
-          ir_led_5(hwlib::pin_oc_dummy) {
-    }
-
-    flame_sensor_c::flame_sensor_c(hwlib::pin_oc &ir_led_test_a,
-                                   hwlib::pin_oc &ir_led_test_d)
-        : ir_led_1(ir_led_test_a),
-          ir_led_2(ir_led_test_d),
-          ir_led_3(hwlib::pin_oc_dummy),
-          ir_led_4(hwlib::pin_oc_dummy),
-          ir_led_5(hwlib::pin_oc_dummy) {
-    }
-
     // made to test output for the leds
-    void flame_sensor_c::test_output() {
+    void flame_sensor_c::read_output() {
+        hwlib::pin_oc* leds[5] = {&ir_led_1, &ir_led_2, &ir_led_3, &ir_led_4, &ir_led_5};
+        bool 
         for (;;) {
-            hwlib::wait_ms(500);
-            // hwlib::cout << "Analog: " << ir_led_0.read()
-            //<< hwlib::endl; // led 1 -> analog
-            hwlib::cout << "Digital: " << ir_led_1.read()
-                        << hwlib::endl; // led 1 -> digital
+            for (int i=0; i<5;++i) {
+                //hwlib::wait_ms(500);
+                hwlib::cout << leds[i]->read();
+            }
+            hwlib::cout << hwlib::endl;
+            hwlib::wait_ms(100);
         }
     }
 
