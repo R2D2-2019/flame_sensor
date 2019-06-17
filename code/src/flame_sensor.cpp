@@ -25,17 +25,26 @@ namespace r2d2::flame_sensor {
 			hwlib::target::pin_adc &ir_led_3,
 			hwlib::target::pin_adc &ir_led_4,
 			hwlib::target::pin_adc &ir_led_5,
-			unsigned int flame_threshhold)
+			unsigned int flame_threshhold,
+			unsigned int threshhold_offset)
 			: leds{ir_led_1, ir_led_2, ir_led_3, ir_led_4, ir_led_5},
-			flame_threshhold(flame_threshhold){
+			flame_threshhold(flame_threshhold),
+			threshhold_offset(threshhold_offset){
 	}
 
     bool flame_sensor_c::is_flame_detected() {
         bool return_value = 0;
-        unsigned int total = 0;
+        unsigned int sensor_total = 0;
+
+        for(auto led : leds) {
+			sensor_total += led.read();
+        }
+		sensor_total = (sensor_total / array_size(leds));
+
         for(size_t i = 0; i < array_size(leds); ++i) {
+        	sensor_total += leds[i].read();
         	hwlib::cout << (leds[i].read()) << " : ";
-            if (leds[i].read() >= flame_threshhold) {
+            if (leds[i].read() >= flame_threshhold || leds[i].read() >= sensor_total + threshhold_offset) {
                 return_value = 1;
             }
         }

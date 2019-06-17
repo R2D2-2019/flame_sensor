@@ -12,6 +12,7 @@ namespace r2d2::flame_sensor {
 //        hwlib::pin_oc &ir_led_5;
         hwlib::target::pin_adc leds[5];
 		unsigned int flame_threshhold;
+		unsigned int threshhold_offset;
 
 		template<size_t SIZE, class T>
 		size_t array_size(T (&arr)[SIZE]);
@@ -23,7 +24,7 @@ namespace r2d2::flame_sensor {
 
 		flame_sensor_c(hwlib::target::pin_adc &ir_led_1, hwlib::target::pin_adc &ir_led_2,
 					   hwlib::target::pin_adc &ir_led_3, hwlib::target::pin_adc &ir_led_4,
-					   hwlib::target::pin_adc &ir_led_5, unsigned int flame_threshhold);
+					   hwlib::target::pin_adc &ir_led_5, unsigned int flame_threshhold, unsigned int threshhold_offset);
 
         /**
          * @brief Check if sensor detects a flame anywhere near
