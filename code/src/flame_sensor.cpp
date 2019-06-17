@@ -14,23 +14,27 @@ namespace r2d2::flame_sensor {
 //          ir_led_5(ir_led_5) {
 //    }
 
+	template<size_t SIZE, class T>
+	size_t flame_sensor_c::array_size(T (&arr)[SIZE]) {
+		return SIZE;
+	}
+
 	flame_sensor_c::flame_sensor_c(
 			hwlib::target::pin_adc &ir_led_1,
 			hwlib::target::pin_adc &ir_led_2,
 			hwlib::target::pin_adc &ir_led_3,
 			hwlib::target::pin_adc &ir_led_4,
 			hwlib::target::pin_adc &ir_led_5,
-			int flame_threshhold)
+			unsigned int flame_threshhold)
 			: leds{ir_led_1, ir_led_2, ir_led_3, ir_led_4, ir_led_5},
 			flame_threshhold(flame_threshhold){
 	}
 
     bool flame_sensor_c::is_flame_detected() {
-        size_t size = sizeof(leds) / sizeof(leds[0]);
         bool return_value = 0;
-        for (size_t i = 0; i < size; ++i) {
-        	hwlib::cout << leds[i].read() << " : ";
-//            if (leds[i]->read() == 1) {
+        unsigned int total = 0;
+        for(size_t i = 0; i < array_size(leds); ++i) {
+        	hwlib::cout << (leds[i].read()) << " : ";
             if (leds[i].read() >= flame_threshhold) {
                 return_value = 1;
             }
