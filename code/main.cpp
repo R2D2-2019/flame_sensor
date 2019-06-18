@@ -23,12 +23,13 @@ int main(void) {
 
     r2d2::flame_sensor::flame_sensor_c sensor =
         r2d2::flame_sensor::flame_sensor_c(test_pin_1, test_pin_2, test_pin_3,
-                                           test_pin_4, test_pin_5, 2000, 200);
+                                           test_pin_4, test_pin_5, 2000, 40, 120);
     for (;;) {
         if (sensor.is_flame_detected()) {
-            hwlib::cout << "Fire!" << hwlib::endl;
+			hwlib::cout << sensor.get_flame_direction() << hwlib::endl;
         } else {
         	hwlib::cout << "No Fire!" << hwlib::endl;
         }
+		hwlib::wait_ms(100);
     }
 }
