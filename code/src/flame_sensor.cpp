@@ -69,10 +69,10 @@ namespace r2d2::flame_sensor {
 
 		for(size_t i = 0; i < array_size(leds); ++i) {
 			int temp (leds[i].read() * 100 / sensor_total);
-			return_value += int(temp * (((total_detection_angle / (array_size(leds))) * ((i * 2) + 1 )) / 2));
+			return_value += int(temp * ((total_detection_angle / (array_size(leds)-1)) * i));
 
-//			hwlib::cout << int(temp * (((total_detection_angle / (array_size(leds))) * ((i * 2) + 1)) / 2)) << " : ";
+			hwlib::cout << int(((total_detection_angle / (array_size(leds)-1)) * i)) << " : ";
 		}
-		return (return_value / 100 - (total_detection_angle / 2));
+		return (return_value / 100 - (total_detection_angle / 2)) * 2;
     }
 } // namespace r2d2::flame_sensor
