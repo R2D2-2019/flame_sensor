@@ -33,6 +33,7 @@ int main(void) {
 
     for (;;) {
         module.process();
-//        hwlib::wait_ms(100);
+
+        hwlib::wait_ms(100);
     }
 }
