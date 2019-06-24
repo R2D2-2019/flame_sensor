@@ -1,4 +1,5 @@
-#include <flame_sensor.hpp>
+#include <comm.hpp>
+#include <module.hpp>
 #include <hwlib.hpp>
 
 int main(void) {
@@ -21,16 +22,17 @@ int main(void) {
     auto test_pin_4 = hwlib::target::pin_adc(hwlib::target::ad_pins::a1);
     auto test_pin_5 = hwlib::target::pin_adc(hwlib::target::ad_pins::a0);
 
-    r2d2::flame_sensor::flame_sensor_c sensor =
+    r2d2::comm_c comm;
+
+    r2d2::flame_sensor::flame_sensor_c flame_sensor =
         r2d2::flame_sensor::flame_sensor_c(test_pin_1, test_pin_2, test_pin_3,
                                            test_pin_4, test_pin_5, 2000, 40,
                                            120);
+
+    r2d2::flame_sensor::module_c module = r2d2::flame_sensor::module_c(comm, &flame_sensor);
+
     for (;;) {
-        if (sensor.is_flame_detected()) {
-            hwlib::cout << sensor.get_flame_direction() << hwlib::endl;
-        } else {
-            hwlib::cout << "No Fire!" << hwlib::endl;
-        }
-        hwlib::wait_ms(100);
+        module.process();
+//        hwlib::wait_ms(100);
     }
 }
