@@ -28,7 +28,16 @@ namespace r2d2::flame_sensor {
          */
         unsigned int get_sensor_average();
 
-        /**
+		/**
+		 * @brief return the threshhold set for the flame sensor
+		 *
+		 * @return unsigned int threshhold set for the flame sensor
+		 */
+
+		unsigned int get_flame_threshhold();
+
+
+		/**
          * @brief Check if sensor detects a flame anywhere near
          *
          *
