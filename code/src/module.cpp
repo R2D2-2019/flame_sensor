@@ -3,11 +3,14 @@
 namespace r2d2::flame_sensor {
     module_c::module_c(base_comm_c &comm, flame_sensor_c *flame_sensor)
         : base_module_c(comm), flame_sensor(flame_sensor) {
-        comm.listen_for_frames({r2d2::frame_type::FLAME_DETECTION});
+        comm.listen_for_frames({r2d2::frame_type::ALL});
     }
 
     void module_c::module_c::process() {
-        while (comm.has_data()) {
+		auto led = hwlib::target::pin_out(hwlib::target::pins::d13);
+		led.write(true);
+
+		while (comm.has_data()) {
             auto frame = comm.get_data();
             // process the frame
 
@@ -25,9 +28,11 @@ namespace r2d2::flame_sensor {
 //					hwlib::cout << "No Fire!" << hwlib::endl;
 				}
 
+				hwlib::wait_ms(10);
 				comm.send(flame_frame);
 			}
         }
-
+		hwlib::wait_ms(10);
+		led.write(false);
     }
 } // namespace r2d2::flame_sensor
