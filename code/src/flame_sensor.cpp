@@ -7,9 +7,9 @@ namespace r2d2::flame_sensor {
     }
 
     flame_sensor_c::flame_sensor_c(
-        hwlib::target::pin_adc &ir_led_1, hwlib::target::pin_adc &ir_led_2,
-        hwlib::target::pin_adc &ir_led_3, hwlib::target::pin_adc &ir_led_4,
-        hwlib::target::pin_adc &ir_led_5, unsigned int flame_threshhold,
+        hwlib::adc *ir_led_1, hwlib::adc *ir_led_2,
+        hwlib::adc *ir_led_3, hwlib::adc *ir_led_4,
+        hwlib::adc *ir_led_5, unsigned int flame_threshhold,
         unsigned int threshhold_offset, unsigned int total_detection_angle)
         : leds{ir_led_1, ir_led_2, ir_led_3, ir_led_4, ir_led_5},
           flame_threshhold(flame_threshhold),
@@ -21,7 +21,7 @@ namespace r2d2::flame_sensor {
         unsigned int sensor_average = 0;
 
         for (auto led : leds) {
-            sensor_average += led.read();
+            sensor_average += led->read();
         }
         sensor_average = (sensor_average / array_size(leds));
         return sensor_average;
@@ -42,9 +42,9 @@ namespace r2d2::flame_sensor {
     }
 
     bool flame_sensor_c::is_single_flame_detected(
-        hwlib::target::pin_adc pin_to_check, unsigned int sensor_average) {
-        return (pin_to_check.read() >= flame_threshhold ||
-                pin_to_check.read() >=
+        hwlib::adc *pin_to_check, unsigned int sensor_average) {
+        return (pin_to_check->read() >= flame_threshhold ||
+                pin_to_check->read() >=
                     (sensor_average * (threshhold_error + 100)) / 100);
     }
 
@@ -55,7 +55,7 @@ namespace r2d2::flame_sensor {
         unsigned int sensor_total = sensor_average * array_size(leds);
 
         for (size_t i = 0; i < array_size(leds); ++i) {
-            int temp(leds[i].read() * 100 / sensor_total);
+            int temp(leds[i]->read() * 100 / sensor_total);
             return_value += int(
                 temp * ((total_detection_angle / (array_size(leds) - 1)) * i));
         }

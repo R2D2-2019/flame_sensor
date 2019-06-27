@@ -11,7 +11,6 @@
 //	 * the pointer to the flame_sensor
 //	 *
 //	 * @param comm
-//	 * @param flame_sensor
 //	 */
 //	test_module(r2d2::base_comm_c &comm)
 //			: base_module_c(comm) {
@@ -40,8 +39,9 @@
 //				>().flame_angle;
 //
 //				if (flame_detected) {
-//					hwlib::cout << flame_angle <<
-//hwlib::endl; 				} else { 					hwlib::cout << "no flames" << hwlib::endl;
+//					hwlib::cout << flame_angle << hwlib::endl;
+//				} else {
+//					hwlib::cout << "no flames" << hwlib::endl;
 //				}
 //			}
 //		}
@@ -60,23 +60,23 @@ int main(void) {
     auto led = hwlib::target::pin_out(hwlib::target::pins::d13);
 
     // analog pins
-    auto test_pin_1 = hwlib::target::pin_adc(hwlib::target::ad_pins::a4);
-    auto test_pin_2 = hwlib::target::pin_adc(hwlib::target::ad_pins::a3);
-    auto test_pin_3 = hwlib::target::pin_adc(hwlib::target::ad_pins::a2);
-    auto test_pin_4 = hwlib::target::pin_adc(hwlib::target::ad_pins::a1);
-    auto test_pin_5 = hwlib::target::pin_adc(hwlib::target::ad_pins::a0);
+	auto test_pin_1 = hwlib::target::pin_adc(hwlib::target::ad_pins::a4);
+	auto test_pin_2 = hwlib::target::pin_adc(hwlib::target::ad_pins::a3);
+	auto test_pin_3 = hwlib::target::pin_adc(hwlib::target::ad_pins::a2);
+	auto test_pin_4 = hwlib::target::pin_adc(hwlib::target::ad_pins::a1);
+	auto test_pin_5 = hwlib::target::pin_adc(hwlib::target::ad_pins::a0);
 
     r2d2::comm_c comm;
 
     r2d2::flame_sensor::flame_sensor_c flame_sensor =
-        r2d2::flame_sensor::flame_sensor_c(test_pin_1, test_pin_2, test_pin_3,
-                                           test_pin_4, test_pin_5, 2000, 40,
+        r2d2::flame_sensor::flame_sensor_c(&test_pin_1, &test_pin_2, &test_pin_3,
+                                           &test_pin_4, &test_pin_5, 2000, 40,
                                            120);
 
     r2d2::flame_sensor::module_c module =
         r2d2::flame_sensor::module_c(comm, &flame_sensor);
 
-    //	test_module module = test_module(comm);
+//    	test_module module = test_module(comm);
 
     for (;;) {
         module.process();

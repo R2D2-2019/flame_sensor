@@ -5,7 +5,7 @@
 namespace r2d2::flame_sensor {
     class flame_sensor_c {
     private:
-        hwlib::target::pin_adc leds[5];
+        hwlib::adc *leds[5];
         unsigned int flame_threshhold;
         unsigned int threshhold_error;
         unsigned int total_detection_angle;
@@ -15,9 +15,9 @@ namespace r2d2::flame_sensor {
 
     public:
         flame_sensor_c(
-            hwlib::target::pin_adc &ir_led_1, hwlib::target::pin_adc &ir_led_2,
-            hwlib::target::pin_adc &ir_led_3, hwlib::target::pin_adc &ir_led_4,
-            hwlib::target::pin_adc &ir_led_5, unsigned int flame_threshhold,
+			hwlib::adc *ir_led_1, hwlib::adc *ir_led_2,
+			hwlib::adc *ir_led_3, hwlib::adc *ir_led_4,
+			hwlib::adc *ir_led_5, unsigned int flame_threshhold,
             unsigned int threshhold_error, unsigned int total_detection_angle);
 
         /**
@@ -52,7 +52,7 @@ namespace r2d2::flame_sensor {
          * @return true if the specified led detects a flame
          * @return false if the specified led detects no flame
          */
-        bool is_single_flame_detected(hwlib::target::pin_adc pin_to_check,
+        bool is_single_flame_detected(hwlib::adc *pin_to_check,
                                       unsigned int sensor_average);
 
         /**
