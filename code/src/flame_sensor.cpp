@@ -17,19 +17,19 @@ namespace r2d2::flame_sensor {
           total_detection_angle(total_detection_angle) {
     }
 
-	unsigned int flame_sensor_c::get_sensor_average() {
-		unsigned int sensor_average = 0;
+    unsigned int flame_sensor_c::get_sensor_average() {
+        unsigned int sensor_average = 0;
 
-		for (auto led : leds) {
-			sensor_average += led.read();
-		}
-		sensor_average = (sensor_average / array_size(leds));
-		return sensor_average;
-	}
+        for (auto led : leds) {
+            sensor_average += led.read();
+        }
+        sensor_average = (sensor_average / array_size(leds));
+        return sensor_average;
+    }
 
-	unsigned int flame_sensor_c::get_flame_threshhold() {
-		return flame_threshhold;
-	}
+    unsigned int flame_sensor_c::get_flame_threshhold() {
+        return flame_threshhold;
+    }
 
     bool flame_sensor_c::is_flame_detected() {
         bool return_value = 0;
