@@ -1,3 +1,10 @@
+#pragma once
+
+#include <base_module.hpp>
+#include <comm.hpp>
+#include <hwlib.hpp>
+
+
  class test_module : public r2d2::base_module_c {
  public:
 	/**
