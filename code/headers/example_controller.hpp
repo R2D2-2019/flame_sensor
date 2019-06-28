@@ -39,8 +39,12 @@
 						r2d2::frame_type::FLAME_DETECTION
 				>().flame_angle;
 
+				const auto big_fire = frame.as_frame_type<
+						r2d2::frame_type::FLAME_DETECTION
+				>().big_fire;
+
 				if (flame_detected) {
-					hwlib::cout << flame_angle << hwlib::endl;
+					hwlib::cout << flame_angle << " big fire: " << big_fire << hwlib::endl;
 				} else {
 					hwlib::cout << "no flames" << hwlib::endl;
 				}

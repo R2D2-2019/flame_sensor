@@ -1,6 +1,5 @@
 #include <comm.hpp>
 #include <hwlib.hpp>
-#include <mock_bus.hpp>
 #include <module.hpp>
 #include <example_controller.hpp>
 
