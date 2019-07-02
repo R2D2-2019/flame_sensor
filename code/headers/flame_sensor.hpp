@@ -1,17 +1,15 @@
 #pragma once
 
 #include <hwlib.hpp>
+#include <array>
 
 namespace r2d2::flame_sensor {
     class flame_sensor_c {
     private:
-        hwlib::adc *leds[5];
+        std::array<hwlib::adc*, 5> leds;
         unsigned int flame_threshhold;
         unsigned int threshhold_error;
         unsigned int total_detection_angle;
-
-        template <size_t SIZE, class T>
-        size_t array_size(T (&leds)[SIZE]);
 
     public:
         flame_sensor_c(

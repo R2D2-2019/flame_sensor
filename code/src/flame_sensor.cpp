@@ -1,10 +1,6 @@
 #include <flame_sensor.hpp>
 
 namespace r2d2::flame_sensor {
-    template <size_t SIZE, class T>
-    size_t flame_sensor_c::array_size(T (&leds)[SIZE]) {
-        return SIZE;
-    }
 
     flame_sensor_c::flame_sensor_c(
         hwlib::adc *ir_led_1, hwlib::adc *ir_led_2,
@@ -23,7 +19,7 @@ namespace r2d2::flame_sensor {
         for (auto led : leds) {
             sensor_average += led->read();
         }
-        sensor_average = (sensor_average / array_size(leds));
+        sensor_average = (sensor_average / leds.size());
         return sensor_average;
     }
 
@@ -35,7 +31,7 @@ namespace r2d2::flame_sensor {
         bool return_value = 0;
         unsigned int sensor_average = get_sensor_average();
 
-        for (size_t i = 0; i < array_size(leds); ++i) {
+        for (size_t i = 0; i < leds.size(); ++i) {
             return_value += is_single_flame_detected(leds[i], sensor_average);
         }
         return return_value;
@@ -52,12 +48,12 @@ namespace r2d2::flame_sensor {
         int return_value = 0;
 
         unsigned int sensor_average = get_sensor_average();
-        unsigned int sensor_total = sensor_average * array_size(leds);
+        unsigned int sensor_total = sensor_average * leds.size();
 
-        for (size_t i = 0; i < array_size(leds); ++i) {
+        for (size_t i = 0; i < leds.size(); ++i) {
             int temp(leds[i]->read() * 100 / sensor_total);
             return_value += int(
-                temp * ((total_detection_angle / (array_size(leds) - 1)) * i));
+                temp * ((total_detection_angle / (leds.size() - 1)) * i));
         }
         return (return_value / 100 - (total_detection_angle / 2)) * 2;
     }
