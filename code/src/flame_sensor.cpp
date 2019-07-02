@@ -51,9 +51,8 @@ namespace r2d2::flame_sensor {
         unsigned int sensor_total = sensor_average * leds.size();
 
         for (size_t i = 0; i < leds.size(); ++i) {
-            int temp(leds[i]->read() * 100 / sensor_total);
-            return_value += int(
-                temp * ((total_detection_angle / (leds.size() - 1)) * i));
+            int led_percentage = (leds[i]->read() * 100 / sensor_total);
+            return_value += (led_percentage * ((total_detection_angle / (leds.size() - 1)) * i));
         }
         return (return_value / 100 - (total_detection_angle / 2)) * 2;
     }
